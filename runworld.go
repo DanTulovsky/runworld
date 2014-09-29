@@ -26,8 +26,8 @@ func main() {
 	}()
 
 	width, length := termbox.Size()
-	width = width / 2
-	length = length / 2
+	width = width/2 - 1
+	length = length/2 - 1
 	var height int32
 
 	s := &world.Settings{
@@ -39,7 +39,7 @@ func main() {
 		NewPeepModifier:  1000,   // Controls how often new peeps spawn.  Lower is less often
 		Size:             &world.Size{int32(width), int32(length), height, int32(-width), int32(-length), -height},
 		SpawnProbability: 0.5, // Chances of two meetings peeps spawning a new one
-		TurnTime:         time.Millisecond * 50,
+		TurnTime:         time.Millisecond * 100,
 	}
 	fmt.Fprintln(os.Stderr, s.Size)
 
