@@ -1,15 +1,35 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"local/world"
+	"log"
 	"os"
+	"runtime/pprof"
 	"time"
 
 	termbox "github.com/nsf/termbox-go"
 )
 
+var (
+	cpuprofile = flag.String("cpuprofile", "", "write cpu profile to file")
+)
+
 func main() {
+	flag.Parse()
+
+	// profiling support
+	if *cpuprofile != "" {
+		f, err := os.Create(*cpuprofile)
+		if err != nil {
+			log.Fatal(err)
+		}
+		pprof.StartCPUProfile(f)
+		defer pprof.StopCPUProfile()
+	}
+	// end profiling
+
 	// Initialize GUI
 	err := termbox.Init()
 	if err != nil {
@@ -57,7 +77,7 @@ func main() {
 			time.Sleep(s.TurnTime)
 		} else {
 			fmt.Println(err)
-			os.Exit(0)
+			break
 		}
 
 	}
