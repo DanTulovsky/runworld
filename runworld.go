@@ -56,12 +56,12 @@ func main() {
 		MaxPeeps:         500,    // Absolute max peeps in the world, no more can be born after this.
 		RandomDeath:      0.0001, // Chances of random death each turn for every peep
 		NewPeepMax:       500,    // Once this many peeps exist, no new ones are spawned from origin
-		NewPeepModifier:  1000,   // Controls how often new peeps spawn.  Lower is less often
+		NewPeepModifier:  10,     // Controls how often new peeps spawn.  Lower is less often
 		Size:             &world.Size{int32(width), int32(length), height, int32(-width), int32(-length), -height},
-		SpawnProbability: 0.5, // Chances of two meetings peeps spawning a new one
+		SpawnProbability: 1, // Chances of two meetings peeps spawning a new one
 		TurnTime:         time.Millisecond * 100,
 	}
-	fmt.Fprintln(os.Stderr, s.Size)
+	s.SpawnAge = 1 //s.MaxAge / 2
 
 	w := world.NewWorld("Alpha1", *s, event_queue)
 	// go w.Run()
