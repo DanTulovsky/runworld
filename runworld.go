@@ -54,7 +54,7 @@ func main() {
 	s := &world.Settings{
 		NewPeep:          1,      // Initial chance of a new peep being spawned at spawn points
 		MaxAge:           1000,   // Any peep reaching this age will die
-		MaxPeeps:         1000,   // Absolute max peeps in the world, no more can be born after this.
+		MaxPeeps:         100,    // Absolute max peeps in the world, no more can be born after this.
 		RandomDeath:      0.0001, // Chances of random death each turn for every peep
 		NewPeepMax:       50,     // Once this many peeps exist, no new ones are spawned from origin
 		NewPeepModifier:  100,    // Controls how often new peeps spawn.  Lower is less often
@@ -62,7 +62,8 @@ func main() {
 		SpawnProbability: 1, // Chances of two meetings peeps spawning a new one
 		TurnTime:         time.Millisecond * 100,
 	}
-	s.SpawnAge = s.MaxAge / 10
+	s.SpawnAge = s.MaxAge / 10           // Can spawn after this age
+	s.YoungHightlightAge = s.MaxAge / 30 // Highlighted in the GUI while young
 
 	w := world.NewWorld("Alpha1", *s, event_queue)
 
