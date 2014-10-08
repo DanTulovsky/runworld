@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"local/world"
 	"log"
+	"math/rand"
 	"os"
 	"runtime/pprof"
 	"time"
@@ -51,29 +52,44 @@ func main() {
 	var height int32
 
 	s := &world.Settings{
-		NewPeep:          1,      // Initial chance of a new peep being spawned at origin
-		MaxAge:           2000,   // Any peep reaching this age will die
-		MaxPeeps:         500,    // Absolute max peeps in the world, no more can be born after this.
+		NewPeep:          1,      // Initial chance of a new peep being spawned at spawn points
+		MaxAge:           1000,   // Any peep reaching this age will die
+		MaxPeeps:         1000,   // Absolute max peeps in the world, no more can be born after this.
 		RandomDeath:      0.0001, // Chances of random death each turn for every peep
-		NewPeepMax:       500,    // Once this many peeps exist, no new ones are spawned from origin
-		NewPeepModifier:  10,     // Controls how often new peeps spawn.  Lower is less often
+		NewPeepMax:       50,     // Once this many peeps exist, no new ones are spawned from origin
+		NewPeepModifier:  100,    // Controls how often new peeps spawn.  Lower is less often
 		Size:             &world.Size{int32(width), int32(length), height, int32(-width), int32(-length), -height},
 		SpawnProbability: 1, // Chances of two meetings peeps spawning a new one
 		TurnTime:         time.Millisecond * 100,
 	}
-	s.SpawnAge = 1 //s.MaxAge / 2
+	s.SpawnAge = s.MaxAge / 10
 
 	w := world.NewWorld("Alpha1", *s, event_queue)
-	// go w.Run()
 
-	// Advance world every time user hits enter
-	// scanner := bufio.NewScanner(os.Stdin)
+	// Set homebase locations for each gender
+	locations := w.SpawnLocations()
+	var usedLocations []world.Location // avoid spawning in the same place
+	var spawnLocation world.Location
+
+	for _, gender := range w.Genders() {
+		if len(usedLocations) != len(locations) {
+			for {
+				spawnLocation = locations[rand.Intn(len(locations))]
+				if world.ListContains(usedLocations, spawnLocation) {
+					continue // pick another one
+				}
+				usedLocations = append(usedLocations, spawnLocation)
+				break
+			}
+		}
+		world.Log(gender, spawnLocation)
+		w.SetHomebase(gender, spawnLocation)
+	}
 	w.Show()
 
 	for {
-		// scanner.Scan()
 		if err := w.NextTurn(); err == nil {
-			w.Show()
+			// w.Show()
 			time.Sleep(s.TurnTime)
 		} else {
 			fmt.Println(err)
