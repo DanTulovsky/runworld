@@ -33,7 +33,7 @@ func main() {
 	// Initialize GUI
 	err := termbox.Init()
 	if err != nil {
-		panic(err)
+		// panic(err)
 	}
 	defer termbox.Close()
 
@@ -64,7 +64,6 @@ func main() {
 	s.SpawnAge = 1 //s.MaxAge / 2
 
 	w := world.NewWorld("Alpha1", *s, event_queue)
-	// go w.Run()
 
 	// Advance world every time user hits enter
 	// scanner := bufio.NewScanner(os.Stdin)
