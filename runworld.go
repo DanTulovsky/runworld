@@ -34,7 +34,7 @@ func main() {
 	// Initialize GUI
 	err := termbox.Init()
 	if err != nil {
-		panic(err)
+		// panic(err)
 	}
 	defer termbox.Close()
 
