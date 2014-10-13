@@ -59,11 +59,11 @@ func main() {
 		NewPeepMax:       50,     // Once this many peeps exist, no new ones are spawned from spawn points
 		NewPeepModifier:  100,    // Controls how often new peeps spawn.  Lower is less often
 		Size:             &world.Size{int32(width), int32(length), height, int32(-width), int32(-length), -height},
-		SpawnProbability: 1, // Chances of two meetings peeps spawning a new one
+		SpawnProbability: .8, // Chances of two meetings peeps spawning a new one
 		TurnTime:         time.Millisecond * 100,
 	}
-	s.YoungHightlightAge = 10             // Highlighted in the GUI while young
-	s.SpawnAge = s.YoungHightlightAge + 1 // s.MaxAge / 10 // Can spawn after this age
+	s.YoungHightlightAge = 10               // Highlighted in the GUI while young
+	s.SpawnAge = s.YoungHightlightAge + 100 // s.MaxAge / 10 // Can spawn after this age
 
 	w := world.NewWorld("Alpha1", *s, event_queue)
 
