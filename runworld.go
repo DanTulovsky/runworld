@@ -66,6 +66,7 @@ func main() {
 	s.SpawnAge = s.YoungHightlightAge + 100 // s.MaxAge / 10 // Can spawn after this age
 
 	w := world.NewWorld("Alpha1", *s, event_queue)
+	w.Run() // starts https server, other things later
 
 	// Set homebase locations for each gender
 	locations := w.SpawnLocations()
@@ -86,7 +87,7 @@ func main() {
 		world.Log(gender, spawnLocation)
 		w.SetHomebase(gender, spawnLocation)
 	}
-	w.Show()
+	w.Show(os.Stderr)
 
 	for {
 		if err := w.NextTurn(); err == nil {
