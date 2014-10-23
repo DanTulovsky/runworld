@@ -52,15 +52,17 @@ func main() {
 	var height int32
 
 	s := &world.Settings{
-		NewPeep:          1,      // Initial chance of a new peep being spawned at spawn points
-		MaxAge:           3000,   // Any peep reaching this age will die
-		MaxPeeps:         900,    // Absolute max peeps in the world, no more can be born after this.
-		RandomDeath:      0.0001, // Chances of random death each turn for every peep
-		NewPeepMax:       50,     // Once this many peeps exist, no new ones are spawned from spawn points
-		NewPeepModifier:  100,    // Controls how often new peeps spawn.  Lower is less often
-		Size:             &world.Size{int32(width), int32(length), height, int32(-width), int32(-length), -height},
-		SpawnProbability: .8, // Chances of two meetings peeps spawning a new one
-		TurnTime:         time.Millisecond * 100,
+		NewPeep:           1,      // Initial chance of a new peep being spawned at spawn points
+		MaxAge:            3000,   // Any peep reaching this age will die
+		MaxPeeps:          900,    // Absolute max peeps in the world, no more can be born after this.
+		RandomDeath:       0.0001, // Chances of random death each turn for every peep
+		NewPeepMax:        50,     // Once this many peeps exist, no new ones are spawned from spawn points
+		NewPeepModifier:   100,    // Controls how often new peeps spawn.  Lower is less often
+		Size:              &world.Size{int32(width), int32(length), height, int32(-width), int32(-length), -height},
+		SpawnProbability:  .8, // Chances of two meetings peeps spawning a new one
+		TurnTime:          time.Millisecond * 100,
+		PeepRememberTurns: 4, // can remember what's around them for 4 turns
+		PeepViewDistance:  2, // can see two squares away
 	}
 	s.YoungHightlightAge = 10               // Highlighted in the GUI while young
 	s.SpawnAge = s.YoungHightlightAge + 100 // s.MaxAge / 10 // Can spawn after this age
