@@ -52,20 +52,21 @@ func main() {
 	var height int32
 
 	s := &world.Settings{
-		NewPeep:           1,      // Initial chance of a new peep being spawned at spawn points
-		MaxAge:            3000,   // Any peep reaching this age will die
-		MaxPeeps:          900,    // Absolute max peeps in the world, no more can be born after this.
-		RandomDeath:       0.0001, // Chances of random death each turn for every peep
-		NewPeepMax:        50,     // Once this many peeps exist, no new ones are spawned from spawn points
-		NewPeepModifier:   100,    // Controls how often new peeps spawn.  Lower is less often
+		NewPeep:           1,    // Initial chance of a new peep being spawned at spawn points
+		MaxAge:            3000, // Any peep reaching this age will die
+		MaxPeeps:          1,    // Absolute max peeps in the world, no more can be born after this.
+		RandomDeath:       0,    // Chances of random death each turn for every peep
+		NewPeepMax:        30,   // Once this many peeps exist, no new ones are spawned from spawn points
+		NewPeepModifier:   100,  // Controls how often new peeps spawn.  Lower is less often
 		Size:              &world.Size{int32(width), int32(length), height, int32(-width), int32(-length), -height},
 		SpawnProbability:  .8, // Chances of two meetings peeps spawning a new one
-		TurnTime:          time.Millisecond * 100,
-		PeepRememberTurns: 4, // can remember what's around them for 4 turns
-		PeepViewDistance:  2, // can see two squares away
+		TurnTime:          time.Millisecond * 1000,
+		PeepRememberTurns: 4,  // can remember what's around them for 4 turns
+		PeepViewDistance:  5,  // can see two squares away
+		PeepSpawnInterval: 10, // How often an individual peep can spawn
 	}
-	s.YoungHightlightAge = 10               // Highlighted in the GUI while young
-	s.SpawnAge = s.YoungHightlightAge + 100 // s.MaxAge / 10 // Can spawn after this age
+	s.YoungHightlightAge = 10 // Highlighted in the GUI while young
+	s.SpawnAge = 20           // s.YoungHightlightAge + 100 // s.MaxAge / 10 // Can spawn after this age
 
 	w := world.NewWorld("Alpha1", *s, event_queue)
 	w.Run() // starts https server, other things later
