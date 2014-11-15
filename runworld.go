@@ -15,6 +15,7 @@ import (
 
 var (
 	cpuprofile = flag.String("cpuprofile", "", "write cpu profile to file")
+	debug      = flag.Bool("debug", false, "If true, turns don't advanced automatically.")
 )
 
 func main() {
@@ -52,23 +53,26 @@ func main() {
 	var height int32
 
 	s := &world.Settings{
-		NewPeep:           1,    // Initial chance of a new peep being spawned at spawn points
-		MaxAge:            3000, // Any peep reaching this age will die
-		MaxPeeps:          1,    // Absolute max peeps in the world, no more can be born after this.
-		RandomDeath:       0,    // Chances of random death each turn for every peep
-		NewPeepMax:        30,   // Once this many peeps exist, no new ones are spawned from spawn points
-		NewPeepModifier:   100,  // Controls how often new peeps spawn.  Lower is less often
-		Size:              &world.Size{int32(width), int32(length), height, int32(-width), int32(-length), -height},
-		SpawnProbability:  .8, // Chances of two meetings peeps spawning a new one
-		TurnTime:          time.Millisecond * 1000,
-		PeepRememberTurns: 4,  // can remember what's around them for 4 turns
-		PeepViewDistance:  5,  // can see two squares away
-		PeepSpawnInterval: 10, // How often an individual peep can spawn
+		NewPeep:                1,    // Initial chance of a new peep being spawned at spawn points
+		MaxAge:                 3000, // Any peep reaching this age will die
+		MaxPeeps:               3,    // Absolute max peeps in the world, no more can be born after this.
+		RandomDeath:            0,    // Chances of random death each turn for every peep
+		NewPeepMax:             300,  // Once this many peeps exist, no new ones are spawned from spawn points
+		NewPeepModifier:        100,  // Controls how often new peeps spawn.  Lower is less often
+		Size:                   &world.Size{int32(width), int32(length), height, int32(-width), int32(-length), -height},
+		SpawnProbability:       .8, // Chances of two meetings peeps spawning a new one
+		TurnTime:               time.Millisecond * 100,
+		PeepRememberTurns:      2000, // can remember what's around them for X turns; right now they look before moving though
+		PeepViewDistance:       5,    // can see this many squares away
+		KillIfSurroundByOther:  true,
+		KillIfSurroundedBySame: false,
+		KillIfSurrounded:       true,
 	}
+	s.PeepSpawnInterval = 0   //world.Turn(s.MaxAge / 10) // Spawn 10 times in a life time.
 	s.YoungHightlightAge = 10 // Highlighted in the GUI while young
-	s.SpawnAge = 20           // s.YoungHightlightAge + 100 // s.MaxAge / 10 // Can spawn after this age
+	s.SpawnAge = 30           // s.YoungHightlightAge + 100 // s.MaxAge / 10 // Can spawn after this age
 
-	w := world.NewWorld("Alpha1", *s, event_queue)
+	w := world.NewWorld("Alpha1", *s, event_queue, *debug)
 	w.Run() // starts https server, other things later
 
 	// Set homebase locations for each gender
