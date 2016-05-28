@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"local/world"
+	"world"
 	"log"
 	"math/rand"
 	"os"
@@ -57,17 +57,17 @@ func main() {
 		MaxAge:                 3000, // Any peep reaching this age will die
 		MaxPeeps:               1000, // Absolute max peeps in the world, no more can be born after this.
 		RandomDeath:            0,    // Chances of random death each turn for every peep
-		NewPeepMax:             300,  // Once this many peeps exist, no new ones are spawned from spawn points
+		NewPeepMax:             3000,  // Once this many peeps exist, no new ones are spawned from spawn points
 		NewPeepModifier:        100,  // Controls how often new peeps spawn.  Lower is less often
 		Size:                   &world.Size{int32(width), int32(length), height, int32(-width), int32(-length), -height},
-		SpawnProbability:       .8, // Chances of two meetings peeps spawning a new one
-		TurnTime:               time.Millisecond * 100,
+		SpawnProbability:       1, // Chances of two meetings peeps spawning a new one
+		TurnTime:               time.Millisecond * 10,
 		PeepRememberTurns:      2000, // can remember what's around them for X turns; right now they look before moving though
 		PeepViewDistance:       20,   // can see this many squares away
 		KillIfSurroundByOther:  true,
 		KillIfSurroundedBySame: true,
-		KillIfSurrounded:       true,
-		MaxGenders:             4, // 1 - 4
+		KillIfSurrounded:       false,
+		MaxGenders:             2, // 1 - 4
 	}
 	s.PeepSpawnInterval = 0   //world.Turn(s.MaxAge / 10) // Spawn 10 times in a life time.
 	s.YoungHightlightAge = 10 // Highlighted in the GUI while young
