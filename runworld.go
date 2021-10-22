@@ -3,13 +3,13 @@ package main
 import (
 	"flag"
 	"fmt"
-	"world"
 	"log"
 	"math/rand"
 	"os"
 	"runtime/pprof"
 	"time"
 
+	"github.com/DanTulovsky/world"
 	termbox "github.com/nsf/termbox-go"
 )
 
@@ -57,7 +57,7 @@ func main() {
 		MaxAge:                 3000, // Any peep reaching this age will die
 		MaxPeeps:               1000, // Absolute max peeps in the world, no more can be born after this.
 		RandomDeath:            0,    // Chances of random death each turn for every peep
-		NewPeepMax:             3000,  // Once this many peeps exist, no new ones are spawned from spawn points
+		NewPeepMax:             3000, // Once this many peeps exist, no new ones are spawned from spawn points
 		NewPeepModifier:        100,  // Controls how often new peeps spawn.  Lower is less often
 		Size:                   &world.Size{int32(width), int32(length), height, int32(-width), int32(-length), -height},
 		SpawnProbability:       1, // Chances of two meetings peeps spawning a new one
